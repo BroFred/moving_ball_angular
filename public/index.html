@@ -1,1 +1,19 @@
-hello word
+<!doctype html>
+<html ng-app='App'>
+ <head>
+   <title>Moving ball</title>
+   <link rel="stylesheet" href="style.css" />
+ </head>
+ <body ng-controller='testController' ng-keydown='move($event)'>
+ 	<div class="boundingBox">
+ 		 <div class="circle" ng-style="{'background-color':'red','left':x1+'px', 'top':y1+'px' }">welcome</div>
+ 		 <div class="circle" ng-style="{'background-color':'blue','left':x+'px', 'top':y+'px' }">welcome</div>
+    </div>
+ </body>
+ <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+ <script src="//code.angularjs.org/1.2.0/angular-route.js"></script>
+ <script src="//code.angularjs.org/1.2.0/angular-resource.js"></script>
+  <script src="//cdn.socket.io/socket.io-1.3.5.js"></script>
+  <script src="./core.js"></script>
+ <script src="./socket_wrap.js"></script>
+</html>

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/BroFred/moving_ball_angular",
   "dependencies": {
-    "express": "^4.13.1"
+    "express": "^4.13.1",
+    "socket.io": "^1.3.6"
   }
 }
