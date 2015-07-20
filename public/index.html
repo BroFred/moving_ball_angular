@@ -6,7 +6,9 @@
  </head>
  <body ng-controller='testController' ng-keydown='move($event)'>
  	<div class="boundingBox">
- 		 <div class="circle" ng-style="{'background-color':'red','left':x1+'px', 'top':y1+'px' }">welcome</div>
+ 		<!-- <div class="box" ng-style="{'background-color':'red','left':x1+'px', 'top':y1+'px' }">welcome</div>-->
+ 		  <!--<div class="circle" ng-style="{'background-color':'blue','left':member[0].x+'px', 'top':member[0].y+'px' }">welcome</div>-->
+ 		  <member ng-repeat= "o in member" x='o.x' y='o.y'></member>
  		 <div class="circle" ng-style="{'background-color':'blue','left':x+'px', 'top':y+'px' }">welcome</div>
     </div>
  </body>
@@ -16,4 +18,5 @@
   <script src="//cdn.socket.io/socket.io-1.3.5.js"></script>
   <script src="./core.js"></script>
  <script src="./socket_wrap.js"></script>
+ <script src="./directive.js"></script>
 </html>

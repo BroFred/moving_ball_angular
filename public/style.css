@@ -20,11 +20,14 @@
 .box {
     display:block;
     position:absolute;
-    height: 20px;
-    width: 20px;
+    height: 1px;
+    width: 200px;
 
 }
-
+.one {
+    border-style: solid;
+    border-width: 5px;
+}
 #controls {
     position: absolute;
     top: 620px;

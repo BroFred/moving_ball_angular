@@ -3,43 +3,51 @@ app.controller('testController',['$scope','$timeout','socketio',function($scope,
     var ball = function(x,y){
         this.x=x;
         this.y=y;
-        this.vx=5;
-        this.vy=5;
     }
-    $scope.oneball=new ball(Math.random()*100+1,$scope.y=Math.random()*100+1);
-	$scope.x=Math.random()*100+1;$scope.y=Math.random()*100+1;
-    $scope.vx=5;
-    $scope.vy=5;
-    $scope.x1=0;
-    $scope.y1=0;
+	$scope.x=20;$scope.y=20;
+    $scope.vx=0;
+    $scope.vy=0;
+    $scope.member={};
   	$scope.move=function($event) {
   	switch ($event.keyCode) {
     case 37: // Left
-    	$scope.vx=$scope.vx<0 ? $scope.vx: -$scope.vx;
+    	$scope.vx=Math.max(-5,$scope.vx-1)
     break;
 
     case 38: // Up
-    	$scope.vy=$scope.vy<0 ? $scope.vy: -$scope.vy;
+    	$scope.vy=Math.max(-5,$scope.vy-1)
     break;
 
     case 39: // Right
-    	$scope.vx=$scope.vx>0 ? $scope.vx: -$scope.vx;
+    	$scope.vx=Math.min(5,$scope.vx+1)
     break;
 
     case 40: // Down
-    	$scope.vy=$scope.vy>0 ? $scope.vy: -$scope.vy;
+    	$scope.vy=Math.min(5,$scope.vy+1)
     break;
   	}
 	}
-    socketio.on(function(data){
-        $scope.x1=data[0];
-        $scope.y1=data[1];
+    socketio.on('leave',function(data){ 
+        $scope.member[data].x=-10;
+        $scope.member[data].y=-10;
+        delete $scope.member[data];
+    });
+    socketio.on('mirro',function(data){
+        if(!$scope.member[data[2]]){
+            $scope.member[data[2]]=new ball(20,20);
+        }
+        $scope.member[data[2]].x=data[0];
+        $scope.member[data[2]].y=data[1];
     });
 	var re=function(){
-		$timeout(function(){$scope.x=$scope.x+$scope.vx; $scope.x>595||$scope.x<5 ? $scope.vx=$scope.vx*-1:null;
+		$timeout(function(){$scope.x=$scope.x+$scope.vx; $scope.x>595||$scope.x<5? $scope.vx=$scope.vx*-1:null;
             $scope.y=$scope.y+$scope.vy;$scope.y>595||$scope.y<5 ? $scope.vy=$scope.vy*-1:null;
+            /*if(Math.abs($scope.y-$scope.y1)<7&&($scope.x>=$scope.x1&&$scope.x<=$scope.x1+195)){
+                $scope.vy=$scope.vy*-1;
+                $scope.y=$scope.y+$scope.vy;
+            }*/
             socketio.emit([$scope.x,$scope.y],function(){});
-            re()}, 30);
+            re()}, 10);
 	};
     re();
 }]);
