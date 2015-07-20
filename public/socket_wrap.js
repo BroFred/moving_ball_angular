@@ -1,18 +1,14 @@
 app.factory('socketio',['$rootScope',function socketioFactory($rootScope){
 	var socket=io('localhost:3000');
 	return{
-		on :function(callback){
-			socket.on('collision',function(){
+		on :function(event,callback){
+			socket.on(event,function(){
 				var arg=arguments;
-				$rootScope.$apply(function(){callback.apply(io,arg)});
-			});
-			socket.on('mirro',function(){
-				var arg=arguments;
-				$rootScope.$apply(function(){callback.apply(io,arg)});
+				callback.apply(io,arg);
 			});
 		},
-		emit :function(data,callback){
-			socket.emit('location',data,function(){
+		emit :function(event,data,callback){
+			socket.emit(event,data,function(){
 				var arg=arguments;
 				$rootScope.$apply(function(){callback.apply(io,arg)});
 			});
