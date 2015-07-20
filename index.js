@@ -2,7 +2,6 @@ var express= require('express');
 var app=express();
 var http=require('http').Server(app);
 var io=require('socket.io')(http);
-var dic={};
 io.on('connection',function(socket){
 	console.log('join',socket.id);
 	socket.broadcast.emit('fetch_id',socket.id);
