@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/BroFred/moving_ball_angular",
   "dependencies": {
+    "body-parser": "^1.13.2",
+    "ejs": "^2.3.3",
     "express": "^4.13.1",
+    "mongoose": "^4.0.7",
     "socket.io": "^1.3.6"
   }
 }

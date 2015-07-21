@@ -5,12 +5,16 @@
    <link rel="stylesheet" href="style.css" />
  </head>
  <body ng-controller='testController' ng-keydown='move($event)'>
+ 	<button ng-click="addobstacle()">add more</button>
+ 	<button ng-click="sub()">submit</button>
  	<div class="boundingBox">
- 		<!-- <div class="box" ng-style="{'background-color':'red','left':x1+'px', 'top':y1+'px' }">welcome</div>-->
- 		  <!--<div class="circle" ng-style="{'background-color':'blue','left':member[0].x+'px', 'top':member[0].y+'px' }">welcome</div>-->
+ 		<span mapedit ng-repeat='ob in obj'x='ob[0]' y='ob[1]'>[{{ob[0]}},{{ob[1]}}]</span>
+ 		<obstacle ng-repeat= "ob in obs" x='ob.x' y='ob.y' x1 ='20' ,y1='200'></obstacle>
  		  <member ng-repeat= "o in member" x='o.x' y='o.y'></member>
  		 <div class="circle" ng-style="{'background-color':'blue','left':x+'px', 'top':y+'px' }">welcome</div>
     </div>
+    <button ng-click="editMap()"> choose map</button>
+    <div ng-view></div>
  </body>
  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
  <script src="//code.angularjs.org/1.2.0/angular-route.js"></script>
@@ -19,4 +23,6 @@
   <script src="./core.js"></script>
  <script src="./socket_wrap.js"></script>
  <script src="./directive.js"></script>
+ <script src="./resource_wrap.js"></script>
+ <script src="./config.js"></script>
 </html>

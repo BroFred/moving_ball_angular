@@ -1,13 +1,29 @@
-var app=angular.module('App',[]);
-app.controller('testController',['$scope','$timeout','socketio',function($scope,$timeout,socketio){
+var app=angular.module('App',['ngRoute','ngResource']);
+app.controller('testController',['$scope','$timeout','socketio','$location','resource',function($scope,$timeout,socketio,$location,resource){
+    //---->editMap jump
+    $scope.obj=[];
+    $scope.addobstacle=function(){
+        $scope.obj.push([40,40]);
+    }
+    $scope.sub=function(){
+        console.log($scope.obj);
+        var r=resource.save({'obs':$scope.obj},function(){
+            console.log(r);
+        });
+    }
+    $scope.editMap=function(){
+        $location.path('/cmap');
+    }
+    //---->logic
     var ball = function(x,y){
         this.x=x;
         this.y=y;
     }
-	$scope.x=20;$scope.y=20;
+	$scope.x=100;$scope.y=100;
     $scope.vx=0;
     $scope.vy=0;
     $scope.member={};
+    $scope.obs=[];
   	$scope.move=function($event) {
   	switch ($event.keyCode) {
     case 37: // Left
@@ -53,4 +69,8 @@ app.controller('testController',['$scope','$timeout','socketio',function($scope,
             re()}, 10);
 	};
     re();
+    //----> logic
+}]);
+app.controller('mapController',['$scope','$location','resource',function($scope,$location,resource){
+
 }]);
