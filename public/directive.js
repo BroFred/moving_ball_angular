@@ -55,4 +55,29 @@ angular.module('App')
                     $document.off('mouseup', mouseup);
                 }
             }};
-        });
+        })
+.directive('obsj',function obsDirective(){
+    return{
+        restrict:'E',
+        scope:{
+            x:'=x',
+            y:'=y'
+        },
+        link:function (scope, element, attrs) {
+            /*element.addClass('circle');
+            element.css('backgroundColor','blue');
+            element.css('left', scope.x+ 'px');
+            element.css('top', scope.y+ 'px');*/
+            element.css({
+                    position: 'absolute',
+                    border: '1px solid red',
+                    backgroundColor: 'blue',
+                    display: 'block',
+                    color: 'white',
+                    width: '65px',
+                    top: scope.y+ 'px',
+                    left: scope.x + 'px'
+                });
+        }
+    };
+})

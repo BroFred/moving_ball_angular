@@ -6,15 +6,17 @@ app.controller('testController',['$scope','$timeout','socketio','$location','res
         $scope.obj.push([40,40]);
     }
     $scope.sub=function(){
-        console.log($scope.obj);
         var r=resource.save({'obs':$scope.obj},function(){
-            console.log(r);
+            //
         });
+        socketio.emit('add_obs',$scope.obj);
+        $scope.obj=[];
     }
     $scope.editMap=function(){
         $location.path('/cmap');
     }
     //---->logic
+    $scope.obst=[];
     var ball = function(x,y){
         this.x=x;
         this.y=y;
@@ -23,7 +25,6 @@ app.controller('testController',['$scope','$timeout','socketio','$location','res
     $scope.vx=0;
     $scope.vy=0;
     $scope.member={};
-    $scope.obs=[];
   	$scope.move=function($event) {
   	switch ($event.keyCode) {
     case 37: // Left
@@ -43,6 +44,12 @@ app.controller('testController',['$scope','$timeout','socketio','$location','res
     break;
   	}
 	}
+    socketio.on('refreshMap',function(data){
+            $scope.obst=[];
+            $scope.obst=data;
+            console.log(data);
+           console.log($scope.obst);
+    });
     socketio.on('collision',function(data){
             $scope.vx=data[0];
             $scope.vy=data[1];
@@ -62,6 +69,17 @@ app.controller('testController',['$scope','$timeout','socketio','$location','res
             socketio.emit('req_collision',[$scope.vx,$scope.vy,data[2]],function(){});
         }
     });
+    var checkE=function(){
+        $timeout(function(){
+            for(var i in $scope.obst){
+                if(Math.abs($scope.obst[i][1]-$scope.y)<10 && $scope.x>$scope.obst[i][0]-10 && $scope.x<$scope.obst[i][0]+60){
+                    $scope.vx=-$scope.vx;
+                    $scope.vy=-$scope.vy;
+                }
+            }
+       checkE();},8);
+    }
+    checkE();
 	var re=function(){
 		$timeout(function(){$scope.x=$scope.x+$scope.vx; $scope.x>595||$scope.x<5? $scope.vx=$scope.vx*-1:null;
             $scope.y=$scope.y+$scope.vy;$scope.y>595||$scope.y<5 ? $scope.vy=$scope.vy*-1:null;

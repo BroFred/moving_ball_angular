@@ -1,0 +1,21 @@
+var ball=function(io,mapArr){
+io.on('connection',function(socket){
+	console.log('join',socket.id);
+	socket.broadcast.emit('fetch_id',socket.id);
+	socket.on('location',function(data){
+			socket.broadcast.emit('mirro',[data[0],data[1],socket.id]);
+	});
+	socket.on('disconnect',function(){
+		io.emit('leave',socket.id);
+	});
+	socket.on('req_collision',function(data){
+		socket.broadcast.to(data[2]).emit('collision',data);
+	});
+	socket.on('add_obs',function(data){
+		mapArr=mapArr.concat(data);
+		io.emit('refreshMap',mapArr);
+		console.log(mapArr);
+	});
+});
+}
+exports.ball=ball;
