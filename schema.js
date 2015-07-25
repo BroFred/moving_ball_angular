@@ -1,6 +1,6 @@
 var mongo=require('mongoose');
 if(!mongo.connection['models']['map']){
-	var map_schema= new mongo.Schema({height:Number,width:Number,x:Number,y:Number});
+	var map_schema= new mongo.Schema({feature:[]});
 	var map = mongo.connection.model("map",map_schema);
 	exports.user=map;
 }

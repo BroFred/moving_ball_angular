@@ -6,8 +6,8 @@ var http=require('http').Server(app);// shared listener
 var io=require('socket.io')(http);
 require('./socket.js').ball(io,mapArr);
 var router=require('./router.js');
-//var mongo=require('mongoose');
-//mongo.connect('mongodb://localhost/test');
+var mongo=require('mongoose');
+mongo.connect('mongodb://localhost/test');
 //------>router
 app.use('/map',router);
 app.use(express.static('public'));
