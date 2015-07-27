@@ -2,6 +2,9 @@ angular.module('App')
 .controller('testController',['$scope','$timeout','socketio','$location','resource','$rootScope',function($scope,$timeout,socketio,$location,resource,$rootScope){
     //---->editMap jump
     $scope.obj=[];
+    $scope.undoEdit=function(){
+        $scope.obj=[];
+    }
     $scope.addobstacle=function(){
         $scope.obj.push([40,40]);
     }
@@ -94,9 +97,9 @@ angular.module('App')
     //----> logic
 }])
 .controller('mapController',['$scope','$location','resource','$rootScope',function($scope,$location,resource,$rootScope){
-    $scope.mapChoice=resource.get(function(){
-        $scope.mapChoice.feature.map(function(a){
-            $rootScope.$broadcast('retriveMap',[[a[2],a[3]]]); 
+    $scope.mapChoice=resource.query({},function(){
+        $scope.mapChoice.map(function(a){
+            $rootScope.$broadcast('retriveMap',a.feature); 
         });
         console.log($scope.mapChoice);
     });
