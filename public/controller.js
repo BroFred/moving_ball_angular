@@ -24,11 +24,13 @@ angular.module('App')
         this.x=x;
         this.y=y;
     }
-	$scope.x=100;$scope.y=100;
-    $scope.vx=0;
-    $scope.vy=0;
-    $scope.member={};
+	$scope.x=100;$scope.y=100; //location
+    $scope.vx=0; //speed 
+    $scope.vy=0; //speed 
+    $scope.member={}; //join player
+    $scope.sprintMode=0;
   	$scope.move=function($event) {
+    $event.preventDefault();
   	switch ($event.keyCode) {
     case 37: // Left
     	$scope.vx=Math.max(-5,$scope.vx-1)
@@ -45,7 +47,20 @@ angular.module('App')
     case 40: // Down
     	$scope.vy=Math.min(5,$scope.vy+1)
     break;
+    case 83:
+        if($scope.sprintMode===1){
+            break;
+        }
+        socketio.emit('sprint');
+        $scope.sprintMode=1;
+        $scope.vx*=2;
+        $scope.vy*=2;
+        $timeout(function(){
+            $scope.sprintMode=0;
+        },10000);
+    break;
   	}
+    //------> event listener
 	};
     $rootScope.$on('retriveMap',function(event,data){
         $scope.obst=data;
@@ -76,6 +91,12 @@ angular.module('App')
             socketio.emit('req_collision',[$scope.vx,$scope.vy,data[2]],function(){});
         }
     });
+    socketio.on('slowDown',function(){
+        console.log("slowing");
+        $scope.vx/=2;
+        $scope.vy/=2;
+    });
+    //---> event listener 
     var checkE=function(){
         $timeout(function(){
             for(var i in $scope.obst){

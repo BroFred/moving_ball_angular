@@ -1,4 +1,14 @@
 var ball=function(io,mapArr){
+	var Q =require('q');
+	var delay=function(socket){
+		var s=socket.id;
+		var defered =Q.defer();
+		setTimeout(function(){
+			io.to(s).emit('slowDown');
+		},5000);
+		defered.resolve(socket);
+		return defered.promise;
+	}
 io.on('connection',function(socket){
 	console.log('join',socket.id);
 	socket.broadcast.emit('fetch_id',socket.id);
@@ -15,6 +25,9 @@ io.on('connection',function(socket){
 		mapArr=mapArr.concat(data);
 		io.emit('refreshMap',mapArr);
 		console.log(mapArr);
+	});
+	socket.on('sprint',function(){
+		delay(socket);
 	});
 });
 }

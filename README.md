@@ -4,3 +4,4 @@
 <button ng-click="editMap()"> choose map</button> read map from DB
 <button ng-click="undoEdit()"> undoEdit</button> cancel add obsatcle
 support multi player via web socket
+press "s" to sprint for 5s
